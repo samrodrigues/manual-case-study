@@ -6,6 +6,7 @@ use App\Repository\QuestionnaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: QuestionnaireRepository::class)]
 class Questionnaire
@@ -13,15 +14,18 @@ class Questionnaire
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['questionnaire'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['questionnaire'])]
     private ?string $name = null;
 
     /**
      * @var Collection<int, Question>
      */
     #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'questionnaire', orphanRemoval: true)]
+    #[Groups(['questionnaire'])]
     private Collection $questions;
 
     /**

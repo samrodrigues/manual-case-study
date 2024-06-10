@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OptionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: OptionRepository::class)]
 class Option
@@ -11,9 +12,11 @@ class Option
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['questionnaire'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['questionnaire'])]
     private ?string $text = null;
 
     #[ORM\ManyToOne(inversedBy: 'options')]
@@ -62,5 +65,11 @@ class Option
         $this->next_question = $next_question;
 
         return $this;
+    }
+
+    #[Groups(['questionnaire'])]
+    public function getNextQuestionId(): ?int
+    {
+        return $this->next_question ? $this->next_question->getId() : null;
     }
 }
