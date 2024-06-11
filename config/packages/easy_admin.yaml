@@ -1,0 +1,6 @@
+easy_admin:
+  entities:
+    - App\Entity\Question
+    - App\Entity\Option
+    - App\Entity\Product
+    - App\Entity\OptionProduct

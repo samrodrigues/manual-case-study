@@ -9,6 +9,11 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: OptionRepository::class)]
 class Option
 {
+    public function __toString(): string
+    {
+        return $this->text;
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
