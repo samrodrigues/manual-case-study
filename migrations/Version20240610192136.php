@@ -38,10 +38,6 @@ final class Version20240610192136 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_2CF49A6ACE80CD19 ON questionnaire_submission (respondent_id)');
         $this->addSql('CREATE INDEX IDX_2CF49A6ACE07E8FF ON questionnaire_submission (questionnaire_id)');
         $this->addSql('CREATE TABLE respondent (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL)');
-
-        $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)');
-        $this->addSql('CREATE INDEX IDX_75EA56E0E3BD61CE ON messenger_messages (available_at)');
-        $this->addSql('CREATE INDEX IDX_75EA56E016BA31DB ON messenger_messages (delivered_at)');
     }
 
     public function down(Schema $schema): void
@@ -55,6 +51,5 @@ final class Version20240610192136 extends AbstractMigration
         $this->addSql('DROP TABLE questionnaire');
         $this->addSql('DROP TABLE questionnaire_submission');
         $this->addSql('DROP TABLE respondent');
-        $this->addSql('DROP TABLE messenger_messages');
     }
 }
