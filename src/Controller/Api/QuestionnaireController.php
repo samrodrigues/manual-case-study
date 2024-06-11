@@ -16,7 +16,7 @@ class QuestionnaireController extends AbstractController
     {
     }
 
-    #[Route('/questionnaire/{id}', name: 'questionnaire_show', methods: ['GET'])]
+    #[Route('/questionnaire/{id}', name: 'questionnaire_read', methods: ['GET'])]
     public function getQuestionnaire(int $id, QuestionnaireRepository $questionnaireRepository): JsonResponse
     {
         $questionnaire = $questionnaireRepository->findWithRelations($id);

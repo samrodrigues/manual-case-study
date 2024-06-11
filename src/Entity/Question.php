@@ -38,6 +38,22 @@ class Question
     #[ORM\OneToMany(targetEntity: QuestionResponse::class, mappedBy: 'question', orphanRemoval: true)]
     private Collection $questionResponses;
 
+    #[ORM\ManyToOne(targetEntity: Question::class)]
+    #[ORM\JoinColumn(name: "parent_question_id", referencedColumnName: "id", nullable: true)]
+    private ?Question $parentQuestion = null;
+
+    public function getParentQuestion(): ?Question
+    {
+        return $this->parentQuestion;
+    }
+
+    public function setParentQuestion(?Question $parentQuestion): static
+    {
+        $this->parentQuestion = $parentQuestion;
+
+        return $this;
+    }
+
     public function __construct()
     {
         $this->options = new ArrayCollection();
