@@ -27,6 +27,9 @@ final class Version20240611205741 extends AbstractMigration
         $this->addSql('DROP TABLE __temp__question');
         $this->addSql('CREATE INDEX IDX_B6F7494ECE07E8FF ON question (questionnaire_id)');
         $this->addSql('CREATE INDEX IDX_B6F7494E750BE4CF ON question (parent_question_id)');
+
+        // Update parent_question_id for questions 3, 4, and 5
+        $this->addSql('UPDATE question SET parent_question_id = 2 WHERE id IN (3, 4, 5)');
     }
 
     public function down(Schema $schema): void

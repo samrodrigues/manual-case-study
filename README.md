@@ -26,14 +26,22 @@ This project is set up with a SQLite database and includes an admin panel access
     composer install
     ```
 
-3. **Database Setup**
+3. **Copy `.env.example` to `.env` and generate a secret if needed**
+
+    ```bash
+    cp .env.example .env
+    # Generate a new APP_SECRET if needed
+    php bin/console secrets:generate-keys
+    ```
+   
+4. **Database Setup**
 
     ```bash
     php bin/console doctrine:database:create
     php bin/console doctrine:migrations:migrate
     ```
 
-4. **Start the Server**
+5. **Start the Server**
 
     ```bash
     symfony server:start
