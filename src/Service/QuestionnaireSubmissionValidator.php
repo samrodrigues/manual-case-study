@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Dto\QuestionnaireSubmissionCreateDto;
 use App\Entity\Option;
 use App\Entity\Question;
+use App\Repository\OptionRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -14,6 +15,7 @@ class QuestionnaireSubmissionValidator
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly OptionRepository $optionRepository,
         private readonly QuestionRepository $questionRepository,
         private readonly ValidatorInterface $validator,
     ) {
@@ -31,7 +33,7 @@ class QuestionnaireSubmissionValidator
         // TODO: Validate that all questions, except the first one, have a previous question.
     }
 
-    private function validateConflictingSets(QuestionnaireSubmissionCreateDto $submitDto): void
+    public function validateConflictingSets(QuestionnaireSubmissionCreateDto $submitDto): void
     {
         $conflictingSets = $this->questionRepository->identifyConflictingSets($submitDto->questionnaire_id);
         $answeredQuestionIds = array_map(fn($answer) => $answer->question_id, $submitDto->answers);
@@ -44,7 +46,7 @@ class QuestionnaireSubmissionValidator
         }
     }
 
-    private function validateOptions(QuestionnaireSubmissionCreateDto $submitDto): void
+    public function validateOptions(QuestionnaireSubmissionCreateDto $submitDto): void
     {
         foreach ($submitDto->answers as $answer) {
             /** @var Question $question */
@@ -58,10 +60,10 @@ class QuestionnaireSubmissionValidator
         }
     }
 
-    private function validateTerminalOption(QuestionnaireSubmissionCreateDto $submitDto): void
+    public function validateTerminalOption(QuestionnaireSubmissionCreateDto $submitDto): void
     {
         $optionIds = array_map(fn($answer) => $answer->option_id, $submitDto->answers);
-        $options = $this->entityManager->getRepository(Option::class)->findBy(['id' => $optionIds]);
+        $options = $this->optionRepository->findBy(['id' => $optionIds]);
 
         $hasTerminalOption = false;
         foreach ($options as $option) {
